@@ -15,7 +15,6 @@ const divisibleBy5 = 5;
 const divisibleBy3and5 = 15;
 
 describe("cracklePop", () => {
-  cracklePop(0, 15);
   let logSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
@@ -42,17 +41,20 @@ describe("cracklePop", () => {
   });
 
   it("logs 'Crackle' for numbers divisble by 3", () => {
-    cracklePop(0, divisibleBy3);
+    cracklePop(0, divisibleBy3 * 2);
     expect(logSpy.mock.calls[divisibleBy3][0]).toBe("Crackle");
+    expect(logSpy.mock.calls[divisibleBy3 * 2][0]).toBe("Crackle");
   });
 
   it("logs 'Pop' for numbers divisble by 5", () => {
-    cracklePop(0, divisibleBy5);
+    cracklePop(0, divisibleBy5 * 2);
     expect(logSpy.mock.calls[divisibleBy5][0]).toBe("Pop");
+    expect(logSpy.mock.calls[divisibleBy5 * 2][0]).toBe("Pop");
   });
 
   it("logs 'CracklePop' for numbers divisble by 3 AND 5", () => {
-    cracklePop(0, divisibleBy3and5);
+    cracklePop(0, divisibleBy3and5 * 2);
     expect(logSpy.mock.calls[divisibleBy3and5][0]).toBe("CracklePop");
+    expect(logSpy.mock.calls[divisibleBy3and5 * 2][0]).toBe("CracklePop");
   });
 });
