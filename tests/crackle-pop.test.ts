@@ -29,33 +29,30 @@ describe("cracklePop", () => {
   it("logs every number, inclusive", () => {
     cracklePop(0, smallNum);
     expect(logSpy).toHaveBeenCalledTimes(smallNum + 1);
-
-    expect(logSpy).toHaveBeenCalledWith(0);
-    expect(logSpy).toHaveBeenCalledWith(smallNum);
   });
 
   it("logs the first line correctly", () => {
     cracklePop(0, smallNum);
-    expect(logSpy.mock.calls[0][0]).toBe(0);
+    expect(logSpy.mock.calls[0][0]).toBe("CracklePop");
   });
 
   it("logs the last line correctly", () => {
     cracklePop(0, smallNum);
-    expect(logSpy.mock.calls[0][smallNum - 1]).toBe(smallNum);
+    expect(logSpy.mock.calls[smallNum][0]).toBe(smallNum);
   });
 
   it("logs 'Crackle' for numbers divisble by 3", () => {
     cracklePop(0, divisibleBy3);
-    expect(logSpy.mock.calls[0][divisibleBy3 - 1]).toBe("Crackle");
+    expect(logSpy.mock.calls[divisibleBy3][0]).toBe("Crackle");
   });
 
   it("logs 'Pop' for numbers divisble by 5", () => {
     cracklePop(0, divisibleBy5);
-    expect(logSpy.mock.calls[0][divisibleBy5 - 1]).toBe("Pop");
+    expect(logSpy.mock.calls[divisibleBy5][0]).toBe("Pop");
   });
 
   it("logs 'CracklePop' for numbers divisble by 3 AND 5", () => {
     cracklePop(0, divisibleBy3and5);
-    expect(logSpy.mock.calls[0][divisibleBy3and5 - 1]).toBe("CracklePop");
+    expect(logSpy.mock.calls[divisibleBy3and5][0]).toBe("CracklePop");
   });
 });

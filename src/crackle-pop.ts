@@ -7,7 +7,15 @@ Write a program that:
 */
 export const cracklePop = (start: number, end: number): void => {
   for (let i = start; i <= end; i++) {
-    console.log(i);
+    if (i % 15 === 0) {
+      console.log("CracklePop");
+    } else if (i % 5 === 0) {
+      console.log("Pop");
+    } else if (i % 3 === 0) {
+      console.log("Crackle");
+    } else {
+      console.log(i);
+    }
   }
 };
 
