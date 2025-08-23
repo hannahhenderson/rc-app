@@ -1,0 +1,61 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { cracklePop } from "../src/crackle-pop";
+
+/* Code CracklePop
+Write a program that:
+    Prints out the numbers 1 to 100 (inclusive)
+    If the number is divisible by 3, print Crackle instead of the number. 
+    If it's divisible by 5, print Pop instead of the number. 
+    If it's divisible by both 3 and 5, print CracklePop instead of the number.
+*/
+
+const smallNum = 2; // not divisible by 3 or 5
+const divisibleBy3 = 3;
+const divisibleBy5 = 5;
+const divisibleBy3and5 = 15;
+
+describe("cracklePop", () => {
+  cracklePop(0, 15);
+  let logSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    logSpy.mockRestore();
+  });
+
+  it("logs every number, inclusive", () => {
+    cracklePop(0, smallNum);
+    expect(logSpy).toHaveBeenCalledTimes(smallNum + 1);
+
+    expect(logSpy).toHaveBeenCalledWith(0);
+    expect(logSpy).toHaveBeenCalledWith(smallNum);
+  });
+
+  it("logs the first line correctly", () => {
+    cracklePop(0, smallNum);
+    expect(logSpy.mock.calls[0][0]).toBe(0);
+  });
+
+  it("logs the last line correctly", () => {
+    cracklePop(0, smallNum);
+    expect(logSpy.mock.calls[0][smallNum - 1]).toBe(smallNum);
+  });
+
+  it("logs 'Crackle' for numbers divisble by 3", () => {
+    cracklePop(0, divisibleBy3);
+    expect(logSpy.mock.calls[0][divisibleBy3 - 1]).toBe("Crackle");
+  });
+
+  it("logs 'Pop' for numbers divisble by 5", () => {
+    cracklePop(0, divisibleBy5);
+    expect(logSpy.mock.calls[0][divisibleBy5 - 1]).toBe("Pop");
+  });
+
+  it("logs 'CracklePop' for numbers divisble by 3 AND 5", () => {
+    cracklePop(0, divisibleBy3and5);
+    expect(logSpy.mock.calls[0][divisibleBy3and5 - 1]).toBe("CracklePop");
+  });
+});
