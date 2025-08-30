@@ -8,6 +8,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@cp/*": ["src/crackle-pop/*"],
+      "@ttt/*": ["src/tic-tac-toe/*"]
+    },
     "types": ["vitest", "node"]
   },
   "include": ["src", "tests"]

@@ -1,4 +1,4 @@
-import { cp0through100 } from "./crackle-pop";
+import { cp0through100 } from ".";
 
 console.log(String.raw`
   _____ _                 _     __     __

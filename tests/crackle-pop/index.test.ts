@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { cracklePop } from "../src/crackle-pop";
+import { cracklePop } from "@cp/index";
 
 /* Code CracklePop
 Write a program that:

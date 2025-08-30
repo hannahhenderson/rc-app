@@ -4,9 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "run:demo": "tsx src/run.ts",
+    "dev:cp": "tsx src/crackle-pop/run.ts",
+    "dev:ttt": "tsx src/tic-tac-toe/run.ts",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:cp": "vitest run tests/crackle-pop",
+    "test:ttt": "vitest run tests/tic-tac-toe",
     "coverage": "vitest run --coverage",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
