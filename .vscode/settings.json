@@ -1,13 +1,13 @@
 {
-    // Use ESLint to auto-fix problems on save
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-  
-    // Format with Prettier (ESLint config already extends Prettier)
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-  
-    // Optional: only validate these languages
-    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
-  }
+  // Use ESLint to auto-fix problems on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Format with Prettier (ESLint config already extends Prettier)
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // Optional: only validate these languages
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+}
