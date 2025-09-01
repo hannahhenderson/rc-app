@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev:cp": "tsx src/crackle-pop/run.ts",
-    "dev:ttt": "tsx src/tic-tac-toe/run.ts",
+    "dev:ttt": "tsx src/tic-tac-toe/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cp": "vitest run tests/crackle-pop",
