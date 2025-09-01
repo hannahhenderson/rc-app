@@ -4,6 +4,10 @@ import { stdin as input, stdout as output } from "node:process";
 type Cell = "X" | "O" | null;
 type Board = Cell[][]; // this only enforces an array of array of cells... good enough for toy problem
 
+let is_winner = false;
+let player1 = "X";
+let player2 = "O";
+
 const board = [
   [null, null, null],
   [null, null, null],
@@ -38,10 +42,17 @@ const displayBoard = (currentBoard: Board) => {
 // Create a readline in the CLI
 const rl = readline.createInterface({ input, output });
 
-const play = await rl.question(`Where would you like to play?
-    ${displayBoard(board)}
-    `);
-console.log(`thank you for telling me, ${play}`);
-displayBoard(board);
+while (is_winner === false) {
+  const play = await rl.question(`Where would you like to play?
+        ${displayBoard(board)}
+    
+        To end this game, enter "s" or "stop"
+        `);
+  console.log(`thank you for telling me, ${play}`);
+
+  if (play === "stop" || play === "s") {
+    is_winner = true;
+  }
+}
 
 rl.close();
