@@ -1,58 +1,43 @@
 import * as readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
-
-type Cell = "X" | "O" | null;
-type Board = Cell[][]; // this only enforces an array of array of cells... good enough for toy problem
+import { isValidPlay, isExitRequest, displayBoard } from "@ttt/helpers";
 
 let is_winner = false;
+
 let player1 = "X";
 let player2 = "O";
 
-const board = [
+let board = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-const logWithSpacing = (text: String) => {
-  console.log(String.raw`${text}`);
-};
+const makePlay = (play, player): void => {};
 
-const displayBoard = (currentBoard: Board) => {
-  currentBoard.forEach((row, rowNum) => {
-    // display headers
-    if (rowNum === 0) {
-      logWithSpacing("  | 0 | 1 | 2  (row)");
-      logWithSpacing("--------------");
+const playGame = async (): Promise<void> => {
+  // Create a readline in the CLI
+  const rl = readline.createInterface({ input, output });
+
+  while (is_winner === false) {
+    const cliInput = await rl.question(`Where would you like to play? Enter "row#, col#".
+            ${displayBoard(board)}
+To exit this game, enter "s" or "stop"
+`);
+
+    if (isExitRequest(cliInput)) {
+      // Break the loop
+      is_winner = true;
     }
 
-    // display row contents
-    logWithSpacing(`${rowNum} | ${row.join("  | ")}`);
-
-    // add divider
-    if (rowNum != 2) {
-      logWithSpacing("--------------");
+    if (isValidPlay(cliInput)) {
+      makePlay(cliInput);
     } else {
-      logWithSpacing("(col)");
-      console.log("");
+      console.log(`\n❌ "${cliInput}" is an invalid play, please try again.\n`);
     }
-  });
+  }
+
+  rl.close();
 };
 
-// Create a readline in the CLI
-const rl = readline.createInterface({ input, output });
-
-while (is_winner === false) {
-  const play = await rl.question(`Where would you like to play?
-        ${displayBoard(board)}
-    
-        To end this game, enter "s" or "stop"
-        `);
-  console.log(`thank you for telling me, ${play}`);
-
-  if (play === "stop" || play === "s") {
-    is_winner = true;
-  }
-}
-
-rl.close();
+playGame();
