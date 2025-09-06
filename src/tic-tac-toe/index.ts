@@ -10,29 +10,29 @@ import {
   Play,
   Board,
   getMarker,
-  deepEqualJSON,
   Marker,
+  isWinner,
+  isDraw,
 } from "@ttt/helpers";
 
-let board: Board = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
-
-// Return bool true/false "?"
-const makePlay = (play: Play, player: Player): boolean => {
+const makePlay = (play: Play, player: Player, board: Board): Board => {
   const [row, col] = play;
 
-  // TODO: Perhaps don't update the board with a side effect...
   const marker = getMarker(player);
 
   board[row][col] = marker;
+
+  return board;
 };
 
 const playGame = async (): Promise<void> => {
   let player: Player = "Player 1";
   let gameOver = false;
+  let board: Board = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+  ];
 
   // Create a readline in the CLI
   const rl = readline.createInterface({ input, output });
@@ -48,19 +48,27 @@ To exit this game, enter "s" or "stop"
       break;
     }
 
-    let play: Play = isValidSyntax(cliInput);
+    // Check validity of play
+    let { play, isValidSyn } = isValidSyntax(cliInput);
 
-    if (isValidSyntax(cliInput) && isValidPlay()) {
-      // TODO: Also accept numnum as entry (for ease of typing in CLI)
-      makePlay(cliInput.split(","), player);
-      isGameOver;
-
-      //progress to next player
-      player = nextPlayer(player);
-      console.log("gotcha");
-    } else {
+    if (!isValidSyn || !isValidPlay(board, play)) {
       console.log(`\n❌ "${cliInput}" is an invalid play, please try again.\n`);
     }
+
+    board = makePlay(play, player, board);
+
+    // Is the game over?
+    if (isWinner(board)) {
+      console.log(`\n🎉 Congratulations ${player}! You win!\n`);
+      gameOver = true;
+    }
+    if (isDraw(board)) {
+      console.log(`\n🤺 Duel another day, today you have a draw!\n`);
+      gameOver = true;
+    }
+
+    //progress to next player
+    player = nextPlayer(player);
   }
 
   rl.close();
