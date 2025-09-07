@@ -38,24 +38,26 @@ const playGame = async (): Promise<void> => {
   const rl = readline.createInterface({ input, output });
 
   while (gameOver === false) {
-    const cliInput = await rl.question(`${player}: Where would you like to play? Enter "row#, col#".
+    const cliInput =
+      await rl.question(`👋 ${player}: Where would you like to play? Enter "row#, col#".
             ${displayBoard(board)}
 To exit this game, enter "s" or "stop"
 `);
 
     if (isExitRequest(cliInput) || gameOver) {
-      console.log(`\n👋 Thank you for playing!\n`);
+      console.log(`\n🙇‍♀️ Thank you for playing!\n`);
       break;
     }
 
     // Check validity of play
     let { play, isValidSyn } = isValidSyntax(cliInput);
+    let isValidP = isValidPlay(board, play);
 
-    if (!isValidSyn || !isValidPlay(board, play)) {
+    if (!isValidSyn || !isValidP) {
       console.log(`\n❌ "${cliInput}" is an invalid play, please try again.\n`);
+    } else {
+      board = makePlay(play, player, board);
     }
-
-    board = makePlay(play, player, board);
 
     // Is the game over?
     if (isWinner(board)) {
@@ -67,8 +69,11 @@ To exit this game, enter "s" or "stop"
       gameOver = true;
     }
 
-    //progress to next player
-    player = nextPlayer(player);
+    if (isValidP) {
+      // progress to next player
+      // also no need to progress if isWinner or isDraw... but won't matter as game ends
+      player = nextPlayer(player);
+    }
   }
 
   rl.close();
