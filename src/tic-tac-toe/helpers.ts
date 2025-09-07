@@ -1,0 +1,136 @@
+type Cell = "X" | "O" | null;
+type Board = Cell[][]; // this only enforces an array of array of cells... good enough for toy problem
+
+type Coord = 0 | 1 | 2;
+type Play = [Coord, Coord];
+type Exit = "stop" | "s" | "end" | "q" | "exit";
+type Player = "Player 1" | "Player 2";
+type Marker = "X" | "O" | null;
+
+const getMarker = (player: Player): Marker => {
+  if (player === "Player 1") {
+    return "X";
+  } else {
+    return "O";
+  }
+};
+
+const nextPlayer = (player: Player): Player => {
+  if (player === "Player 1") {
+    return "Player 2";
+  } else {
+    return "Player 1";
+  }
+};
+
+const isValidSyntax = (v: string): { play: Play; isValidSyn: boolean } => {
+  const sansWhitespace = v.replace(/\s+/g, "");
+  if (/^(0|1|2),(0|1|2)$/.test(sansWhitespace)) {
+    return {
+      play: sansWhitespace.split(",").map(Number) as unknown as Play, // raging at TS
+      isValidSyn: true,
+    };
+  }
+  if (/^(0|1|2)(0|1|2)$/.test(sansWhitespace)) {
+    return {
+      play: sansWhitespace.split("").map(Number) as unknown as Play,
+      isValidSyn: true,
+    };
+  }
+  return { play: [0, 0], isValidSyn: false };
+};
+
+// Can this player pick this spot?
+const isValidPlay = (board: Board, [a, b]: Play): boolean => {
+  if (board[a][b] === null) {
+    return true;
+  }
+  return false;
+};
+
+const isWinner = (board: Board): boolean => {
+  const gridSize = 3; // 3x3 board; this could be changed depending on board needs
+  const val = { X: 1, O: -1, null: 0 };
+
+  let rowSum = 0;
+  let colSum = 0;
+
+  let diagSumR = 0;
+  let diagSumL = 0;
+
+  for (let a = 0; a < gridSize; a++) {
+    // check diagonal down + to the right
+    const diagKeyR = board[a][a] ?? "null";
+    diagSumR += val[diagKeyR];
+    if (Math.abs(diagSumR) === gridSize) return true;
+
+    // check diagonal down + to the left
+    const diagKeyL = board[a][gridSize - 1 - a] ?? "null";
+    diagSumL += val[diagKeyL];
+    if (Math.abs(diagSumL) === gridSize) return true;
+
+    for (let b = 0; b < gridSize; b++) {
+      // check rows
+      const rowKey = board[a][b] ?? "null";
+      rowSum += val[rowKey];
+      if (Math.abs(rowSum) === gridSize) return true;
+
+      // check columns
+      const colKey = board[b][a] ?? "null";
+      colSum += val[colKey];
+      if (Math.abs(colSum) === gridSize) return true;
+    }
+  }
+  return false;
+};
+
+const isDraw = (board: Board): boolean => {
+  for (const row of board) {
+    for (const val of row) {
+      if (val === null) return false;
+    }
+  }
+  return true;
+};
+
+const isExitRequest = (v: string): boolean => {
+  if (v === "stop" || v === "s" || v === "end" || v === "q" || v === "exit") {
+    return true;
+  }
+  return false;
+};
+
+// display board with a trailing newline
+const displayBoard = (currentBoard: Board): String => {
+  let boardString = "";
+
+  currentBoard.forEach((row, rowNum) => {
+    // display headers
+    if (rowNum === 0) {
+      boardString += "\n  | 0 | 1 | 2  (row)\n--------------";
+    }
+
+    // display row contents
+    boardString += `\n${rowNum} | ${row.join("  | ")}`;
+
+    // add divider
+    if (rowNum != 2) {
+      boardString += "\n--------------";
+    } else {
+      boardString += "\n(col)\n";
+    }
+  });
+  return boardString;
+};
+
+export type { Player, Play, Board, Marker };
+export {
+  isValidSyntax,
+  isValidPlay,
+  isExitRequest,
+  displayBoard,
+  nextPlayer,
+  getMarker,
+  isWinner,
+  isDraw,
+};
