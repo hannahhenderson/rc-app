@@ -113,6 +113,26 @@ describe("isWinner", () => {
     expect(isWinner(boardO)).toBe(true);
   });
 
+  it("does not accumulate across rows", () => {
+    // each row has 1 X, not all cols have an X, no diagonals
+    const scatteredRows: Board = [
+      ["X", null, null],
+      ["X", null, null],
+      [null, "X", null],
+    ];
+
+    // each col has 1 X, not all rows have an X, no diagonals
+    const scatteredCols: Board = [
+      ["X", null, null],
+      [null, "X", "X"],
+      [null, null, null],
+    ];
+
+    // No row, column, or diagonal has 3 in a line -> should be false
+    expect(isWinner(scatteredRows)).toBe(false);
+    expect(isWinner(scatteredCols)).toBe(false);
+  });
+
   it("successfully identifies winners on a diagonal", () => {
     const boardR: Board = [
       ["X", "X", null],

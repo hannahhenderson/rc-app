@@ -52,13 +52,13 @@ const isWinner = (board: Board): boolean => {
   const gridSize = 3; // 3x3 board; this could be changed depending on board needs
   const val = { X: 1, O: -1, null: 0 };
 
-  let rowSum = 0;
-  let colSum = 0;
-
   let diagSumR = 0;
   let diagSumL = 0;
 
   for (let a = 0; a < gridSize; a++) {
+    let rowSum = 0;
+    let colSum = 0;
+
     // check diagonal down + to the right
     const diagKeyR = board[a][a] ?? "null";
     diagSumR += val[diagKeyR];
@@ -107,7 +107,7 @@ const displayBoard = (currentBoard: Board): String => {
   currentBoard.forEach((row, rowNum) => {
     // display headers
     if (rowNum === 0) {
-      boardString += "\n  | 0 | 1 | 2  (row)\n--------------";
+      boardString += "\n  | 0 | 1 | 2  (col)\n--------------";
     }
 
     // display row contents
@@ -117,7 +117,7 @@ const displayBoard = (currentBoard: Board): String => {
     if (rowNum != 2) {
       boardString += "\n--------------";
     } else {
-      boardString += "\n(col)\n";
+      boardString += "\n(row)\n";
     }
   });
   return boardString;
